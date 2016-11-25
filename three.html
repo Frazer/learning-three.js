@@ -1,40 +1,95 @@
 <html>
 <body>
-<script src="three.min.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/OBJLoader.js"></script>
 <script>
 var scene, camera, renderer;
 var geometry, material, mesh;
+var objs = [];
 
 init();
 animate();
 
 function init() {
 
+
+
+    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+    camera.position.z = 250;
+
+    // scene
+
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.z = 200;
+    var ambient = new THREE.AmbientLight( 0x101030 );
+    scene.add( ambient );
+
+    var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+    directionalLight.position.set( 0, 0, 1 );
+    scene.add( directionalLight );
 
 
-
-    geometry = new THREE.BoxGeometry( 40, 10, 10 );
-    colorMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-    wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: true, transparent: true } ); 
-    material = [ colorMaterial, wireframeMaterial ]; 
+    // geometry = new THREE.BoxGeometry( 40, 10, 10 );
+    // colorMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    // wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: true, transparent: true } ); 
+    // material = [ colorMaterial, wireframeMaterial ]; 
     
-    //mesh = new THREE.Mesh( geometry, material );
-    mesh = THREE.SceneUtils.createMultiMaterialObject( 
-        geometry, material );
-    scene.add( mesh );
+    // //mesh = new THREE.Mesh( geometry, material );
+    // mesh = THREE.SceneUtils.createMultiMaterialObject( 
+    //     geometry, material );
+    // scene.add( mesh );
 
 
-    outlineMaterial2 = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
-    outlineMesh2 = new THREE.Mesh( geometry, outlineMaterial2 );
-    outlineMesh2.position = mesh.position;
-    outlineMesh2.scale.multiplyScalar(1.1);
-    scene.add( outlineMesh2 );
+    // outlineMaterial2 = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
+    // outlineMesh2 = new THREE.Mesh( geometry, outlineMaterial2 );
+    // outlineMesh2.position = mesh.position;
+    // outlineMesh2.scale.multiplyScalar(1.1);
+    // scene.add( outlineMesh2 );
+    var onProgress = function ( xhr ) {
+        if ( xhr.lengthComputable ) {
+            var percentComplete = xhr.loaded / xhr.total * 100;
+            console.log( Math.round(percentComplete, 2) + '% downloaded' );
+        }
+    };
+
+    var onError = function ( xhr ) {
+    };
+
+    var texture = new THREE.Texture();
+    var loader = new THREE.ImageLoader(  );
+    loader.load( 'textures/UV_Grid_Sm.jpg', function ( image ) {
+
+        texture.image = image;
+        texture.needsUpdate = true;
+
+    } );
 
 
+
+    var loader = new THREE.OBJLoader(  );
+    loader.load( 'obj/male02.obj', function ( object ) {
+
+        objs[objs.length] = object;
+
+        object.traverse( function ( child ) {
+
+            if ( child instanceof THREE.Mesh ) {
+
+                child.material.map = texture;
+
+            }
+
+        } );
+
+        object.position.y = - 95;
+        scene.add( object );
+
+
+    }, onProgress, onError );
+
+
+
+    
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -46,11 +101,11 @@ function init() {
 function animate() {
 
     requestAnimationFrame( animate );
+    if(objs[0]){
+        //objs[0].rotation.x += 0.01;
+        objs[0].rotation.y += 0.005;
+    }
 
-    mesh.rotation.x += 0.01;
-    mesh.rotation.y += 0.002;
-    outlineMesh2.rotation.x += 0.01;
-    outlineMesh2.rotation.y += 0.002;
 
     renderer.render( scene, camera );
 
