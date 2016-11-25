@@ -1,4 +1,13 @@
-info.txt
+README.md
+
+each branch is a different model with different effects
+
+all code hacked together from:
+	https://threejs.org/examples/webgl_loader_obj.html
+	https://github.com/mrdoob/three.js/
+
+
+
 
 models:
 
