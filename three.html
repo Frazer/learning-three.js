@@ -67,7 +67,7 @@ function init() {
 
 
     var loader = new THREE.OBJLoader(  );
-    loader.load( 'obj/male02.obj', function ( object ) {
+    loader.load( 'obj/vase.obj', function ( object ) {
 
         objs[objs.length] = object;
 
@@ -81,7 +81,9 @@ function init() {
 
         } );
 
-        object.position.y = - 95;
+        object.position.x = - 95;
+        object.rotation.x += 90;
+
         scene.add( object );
 
 
@@ -103,7 +105,7 @@ function animate() {
     requestAnimationFrame( animate );
     if(objs[0]){
         //objs[0].rotation.x += 0.01;
-        objs[0].rotation.y += 0.005;
+        objs[0].rotation.z += 0.005;
     }
 
 
