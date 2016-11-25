@@ -1,7 +1,0 @@
-info.txt
-
-models:
-
-vase:  http://www.outworldz.com/cgi/freesculpts.plx
-male02.obj: https://threejs.org/examples/webgl_loader_obj.html
-
