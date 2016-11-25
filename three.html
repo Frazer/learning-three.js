@@ -1,0 +1,60 @@
+<html>
+<body>
+<script src="three.min.js"></script>
+<script>
+var scene, camera, renderer;
+var geometry, material, mesh;
+
+init();
+animate();
+
+function init() {
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera.position.z = 200;
+
+
+
+    geometry = new THREE.BoxGeometry( 40, 10, 10 );
+    colorMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: true, transparent: true } ); 
+    material = [ colorMaterial, wireframeMaterial ]; 
+    
+    //mesh = new THREE.Mesh( geometry, material );
+    mesh = THREE.SceneUtils.createMultiMaterialObject( 
+        geometry, material );
+    scene.add( mesh );
+
+
+    outlineMaterial2 = new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.BackSide } );
+    outlineMesh2 = new THREE.Mesh( geometry, outlineMaterial2 );
+    outlineMesh2.position = mesh.position;
+    outlineMesh2.scale.multiplyScalar(1.1);
+    scene.add( outlineMesh2 );
+
+
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    document.body.appendChild( renderer.domElement );
+
+}
+
+function animate() {
+
+    requestAnimationFrame( animate );
+
+    mesh.rotation.x += 0.01;
+    mesh.rotation.y += 0.002;
+    outlineMesh2.rotation.x += 0.01;
+    outlineMesh2.rotation.y += 0.002;
+
+    renderer.render( scene, camera );
+
+}
+</script>
+</body>
+</html>
