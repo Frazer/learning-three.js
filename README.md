@@ -3,6 +3,7 @@ README.md
 each branch is a different model with different effects
 
 all code hacked together from:
+    https://stemkoski.github.io/Three.js/
 	https://threejs.org/examples/webgl_loader_obj.html
 	https://github.com/mrdoob/three.js/
 
@@ -16,5 +17,4 @@ vase:  http://www.outworldz.com/cgi/freesculpts.plx   -- needed to stip trailing
 
 	
 male02.obj: https://threejs.org/examples/webgl_loader_obj.html
-
 
