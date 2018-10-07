@@ -1,6 +1,8 @@
 README.md
 
-each branch is a different model with different effects
+See Demo  https://frazer.github.io/learning-three.js/index.html
+
+
 
 all code hacked together from:
     https://stemkoski.github.io/Three.js/
